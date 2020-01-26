@@ -1,0 +1,10 @@
+body {
+  background-color: #f5f8fa;
+  font-family: "Roboto", sans-serif;
+}
+
+@media (max-width: 498px) {
+  .xs\:hidden {
+    display: none;
+  }
+}

@@ -69,6 +69,22 @@ export function DataBaseProvider({ children }) {
             }));
           });
       },
+      signOut() {
+        return store
+          .auth()
+          .signOut()
+          .then(function() {
+            setState(currentState => ({
+              ...currentState,
+              isAuthenticating: false,
+              user: null,
+              authError: null
+            }));
+          })
+          .catch(function(error) {
+            console.log("sign out failed");
+          });
+      },
       tranasaction(callback) {
         return store.current.runTransaction(callback);
       },
@@ -83,7 +99,7 @@ export function DataBaseProvider({ children }) {
       await firebase.initializeApp(firebaseConfig);
       await firebase.analytics();
       authProvider.current = new firebase.auth.GoogleAuthProvider();
-      database.authenticate();
+      // database.authenticate();
     }
 
     init();
