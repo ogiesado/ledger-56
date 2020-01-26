@@ -99,7 +99,16 @@ export function DataBaseProvider({ children }) {
       await firebase.initializeApp(firebaseConfig);
       await firebase.analytics();
       authProvider.current = new firebase.auth.GoogleAuthProvider();
-      // database.authenticate();
+      const user = firebase.auth().currentUser;
+      if (user) {
+        setState(currentState => ({
+          ...currentState,
+          user
+        }));
+      } else {
+        database.authenticate();
+      }
+      console.log(user);
     }
 
     init();

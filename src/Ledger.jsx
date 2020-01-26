@@ -3,6 +3,7 @@ import { Switch, Route, Link } from "react-router-dom";
 
 import Database from "./Database";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default function Ledger() {
   const { store } = useContext(Database);
@@ -23,9 +24,7 @@ export default function Ledger() {
           </Route>
         </Switch>
       </main>
-      <footer>
-        <p>&copy; 2020 - A 56 Productions</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
