@@ -10,7 +10,7 @@ export default function Ledger() {
   //
   return (
     <div className="container mx-auto mt-2 flex flex-col min-h-screen">
-      <Header signOut={store.signOut} />
+      <Header displayName={store.user.displayName} signOut={store.signOut} />
       <main className="flex-grow py-2">
         <Switch>
           <Route exact path={["/", "/dashboard"]}>

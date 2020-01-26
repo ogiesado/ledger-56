@@ -14,7 +14,7 @@ import {
 } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-export default function Header({ signOut }) {
+export default function Header({ signOut, displayName }) {
   const history = useHistory();
 
   return (
@@ -52,6 +52,44 @@ export default function Header({ signOut }) {
             content={
               <Menu>
                 <Menu.Item
+                  icon={IconNames.PERSON}
+                  onClick={() => history.push("/profile")}
+                  text={displayName}
+                />
+                <Menu.Item
+                  icon={IconNames.REFRESH}
+                  onClick={() => history.push("/profile")}
+                  text="Refresh"
+                />
+                <Menu.Divider />
+                <Menu.Item
+                  icon={IconNames.ARROW_RIGHT}
+                  onClick={() => history.push("/dashboard")}
+                  text="Add Funds"
+                />
+                <Menu.Item
+                  icon={IconNames.ARROW_LEFT}
+                  onClick={() => history.push("/dashboard")}
+                  text="Withdraw Funds"
+                />
+                <Menu.Item
+                  icon={IconNames.ARROW_BOTTOM_LEFT}
+                  onClick={() => history.push("/dashboard")}
+                  text="Pay Taxes"
+                />
+                <Menu.Divider />
+                <Menu.Item
+                  icon={IconNames.ADD_TO_FOLDER}
+                  onClick={() => history.push("/dashboard")}
+                  text="Buy"
+                />
+                <Menu.Item
+                  icon={IconNames.FOLDER_SHARED}
+                  onClick={() => history.push("/dashboard")}
+                  text="Sell"
+                />
+                <Menu.Divider />
+                <Menu.Item
                   icon={IconNames.DASHBOARD}
                   onClick={() => history.push("/dashboard")}
                   text="Dashboard"
@@ -67,11 +105,6 @@ export default function Header({ signOut }) {
                   text="Portfolio"
                 />
                 <Menu.Divider />
-                <Menu.Item
-                  icon={IconNames.PERSON}
-                  onClick={() => history.push("/profile")}
-                  text="Profile"
-                />
                 <Menu.Item
                   icon={IconNames.LOG_OUT}
                   onClick={signOut}
