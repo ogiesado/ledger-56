@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef
 } from "react";
+import LoginRequired from "./components/LoginRequired";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
@@ -57,8 +58,6 @@ export function DataBaseProvider({ children }) {
               user: result,
               authError: null
             }));
-
-            store.current = firebase.firestore();
           })
           .catch(function(error) {
             setState(currentState => ({
@@ -70,7 +69,7 @@ export function DataBaseProvider({ children }) {
           });
       },
       signOut() {
-        return store
+        return firebase
           .auth()
           .signOut()
           .then(function() {
@@ -94,25 +93,38 @@ export function DataBaseProvider({ children }) {
     };
   }, [state]);
 
-  useEffect(() => {
+  useEffect(function initialize() {
     async function init() {
       await firebase.initializeApp(firebaseConfig);
       await firebase.analytics();
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
       authProvider.current = new firebase.auth.GoogleAuthProvider();
-      const user = firebase.auth().currentUser;
-      if (user) {
-        setState(currentState => ({
-          ...currentState,
-          user
-        }));
-      } else {
-        database.authenticate();
-      }
-      console.log(user);
     }
 
     init();
   }, []);
 
-  return <DataBase.Provider value={database}>{children}</DataBase.Provider>;
+  useEffect(function listenForAuthUser() {
+    return firebase.auth().onAuthStateChanged(function(user) {
+      if (state.user === user) return; // catches null null
+      if (state.user !== null && user !== null && state.user.uid === user.uid)
+        return;
+
+      setState(currentState => ({
+        ...currentState,
+        user
+      }));
+
+      store.current = user ? firebase.firestore() : null;
+    });
+  });
+
+  return (
+    <DataBase.Provider value={database}>
+      <>
+        {state.user && children}
+        {!state.user && <LoginRequired action={database.authenticate} />}
+      </>
+    </DataBase.Provider>
+  );
 }

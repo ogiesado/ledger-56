@@ -14,7 +14,7 @@ import {
 } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-export default function Header() {
+export default function Header({ signOut }) {
   const history = useHistory();
 
   return (
@@ -74,7 +74,7 @@ export default function Header() {
                 />
                 <Menu.Item
                   icon={IconNames.LOG_OUT}
-                  onClick={() => history.push("/logout")}
+                  onClick={signOut}
                   text="Logout"
                 />
               </Menu>
